@@ -50,7 +50,7 @@ namespace UwpCommandAggregator
         /// </summary>
         public CommandAggregator()
         {
-            commands = new ConcurrentDictionary<string, ICommand>();
+            this.commands = new ConcurrentDictionary<string, ICommand>();
         }
 
         /// <summary>

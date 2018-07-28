@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp", "ExampleApp\Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllUnitTests", "AllUnitTests\AllUnitTests.csproj", "{2B2FD5C7-B4D4-49CC-988B-64E9A17B9DF8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4D47A0D-A14B-40FB-BB00-5184BF07833B}"
+	ProjectSection(SolutionItems) = preProject
+		Home.md = Home.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

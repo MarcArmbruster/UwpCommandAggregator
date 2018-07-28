@@ -72,7 +72,7 @@
 
         protected override void InitCommands()
         {
-            this.CmdAgg.AddOrSetCommand("HelloCommand", new RelayCommand(p1 => SayHelloAsync(p1), p2 => CanSayHello(p2)));
+            this.CmdAgg.AddOrSetCommand("HelloCommand", p1 => SayHelloAsync(p1), p2 => CanSayHello(p2));
 
             // Adding a hierarchy command
             ICommand save1Cmd = new RelayCommand(new Action<object>(p1 => ShowMessageAsync("Save 1 called")), new Predicate<object>(p2 => this.CanSave1));
