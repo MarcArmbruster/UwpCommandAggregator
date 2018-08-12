@@ -106,13 +106,7 @@ method called _InitCommands_.
 public abstract class BaseVm : INotifyPropertyChanged
 {
    private CommandAggregator cmdAgg = new CommandAggregator();
-   public CommandAggregator CmdAgg
-   {
-       get
-       {
-           return this.cmdAgg;
-        }
-   }
+   public CommandAggregator CmdAgg => this.cmdAgg;
 
    protected abstract void InitCommands();
 
@@ -171,7 +165,9 @@ Indexers can be used in Bindings, so an indexer within the CommandAggregator cla
 In XAML we can use the CommandAggregator instance of the view model like this:
 
 ```C#
-<Button Content="Print" Command="{Binding CmdAgg[Print], UpdateSourceTrigger=PropertyChanged}" />
+<Button Content="Print" 
+        Command="{Binding CmdAgg[Print], 
+                          UpdateSourceTrigger=PropertyChanged}" />
 ```
 
 Indexer binding works with square brackets and the name of the registered command - you do not need any quotation marks!
@@ -212,7 +208,7 @@ To configure the dependency of the HierarchyCommand startegies can be used for E
 
 With these values many business cases can be realized.
 
-+A short example:+
+**A short example:**
 ```C#
    // Adding a hierarchy command
    ICommand save1Cmd = new RelayCommand(p1 => Save1(), p2 => this.CanSave1);
@@ -237,7 +233,7 @@ The origin RelayCommand was extended by two delegates "PreActionDelegate" and "P
 These two delegates enables you to add logic to run before and after the command execution delegate runs.
 Therefore these delegates enables you to "inject" cross cutting concerns without the need to change your execution delegate logic.
 
-+A short example (performance messurement):+
+**A short example (performance messurement):**
 ```C#
             this.CmdAgg.AddOrSetCommand(
                                         "Print", 
