@@ -20,7 +20,7 @@ If you have to create views/pages with a lot of functionality, for navigation ba
 
 This leads to a great amount of code lines with very similar structure. 
 
-**Example (+without+ Command Aggregator):**
+**Example (without Command Aggregator):**
 ```C#
 private ICommand printCommand;
 public ICommand PrintCommand
@@ -40,7 +40,7 @@ All we want to tell is: _PrintCommand_ executes the _Print_ method if it is allo
 
 The UWP Command Aggregator reduces the command definitions to a very short and easy to read line of code within a view model class.
 
-**Example (+with+ Command Aggregator):**
+**Example (with Command Aggregator):**
 ```C#
 this.CmdAgg.AddOrSetCommand("Print", new RelayCommand(p1 => Print(p1), p2 => CanPrint));
 ```
@@ -166,7 +166,7 @@ In XAML we can use the CommandAggregator instance of the view model like this:
 
 ```C#
 <Button Content="Print" 
-        Command="{Binding CmdAgg[Print], 
+        Command="{Binding CmdAgg[Print],
                           UpdateSourceTrigger=PropertyChanged}" />
 ```
 
