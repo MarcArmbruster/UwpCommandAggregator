@@ -37,6 +37,11 @@
             = new ConcurrentDictionary<Type, Dictionary<string, List<string>>>();
 
         /// <summary>
+        /// Dictionary to hold private values of bindable properties.
+        /// </summary>
+        private Dictionary<string, object> values = new Dictionary<string, object>();
+
+        /// <summary>
         /// Property to suppress notifications.
         /// Set to true if you want to supress all notifications.
         /// Default is false (active notifications).
@@ -107,10 +112,14 @@
         /// <param name="propertyName">Name of the property - automatically resolved by the framework if not explicitly defined.</param>
         protected virtual void SetPropertyValue<T>(ref T property, T value, [CallerMemberName] string propertyName = null)
         {
+            bool notify = !Equals(property, value) && !this.SuppressNotifications;
             property = value;
 
-            this.RaisePropertyChangedEvent(propertyName);
-            this.RaisePropertyChangedEventForDependendProperties(propertyName);
+            if (notify)
+            {
+                this.RaisePropertyChangedEvent(propertyName);
+                this.RaisePropertyChangedEventForDependendProperties(propertyName);
+            }
         }
 
         /// <summary>
@@ -127,6 +136,65 @@
             preSetAction?.Invoke();
             this.SetPropertyValue<T>(ref property, value, propertyName);
             postSetAction?.Invoke();
+        }
+
+        /// <summary>
+        /// Sets the value by using the automatic private values storage and raises the property changed event (includes dependend properties) - if effective value is changed.
+        /// </summary>
+        /// <remarks>
+        /// Using automatic values storage - DO NOT combine with private fields fior bindable properties in view models.
+        /// </remarks>
+        /// <typeparam name="T">The value type.</typeparam>
+        /// <param name="value">The new value.</param>
+        /// <param name="propertyName">Name of the property - automatically resolved by the framework if not explicitly defined.</param>
+        protected void SetPropertyValue<T>(T value, [CallerMemberName] string propertyName = "")
+        {
+            bool notify = !Equals(value, GetPropertyValue<T>(propertyName)) && !this.SuppressNotifications;
+
+            this.values[propertyName] = value;
+
+            if (notify)
+            {
+                this.RaisePropertyChangedEvent(propertyName);
+                this.RaisePropertyChangedEventForDependendProperties(propertyName);
+            }
+        }
+
+        /// <summary>
+        /// Sets the value by using the automatic private values storage and raises the property changed event (includes dependend properties) - if effective value is changed.
+        /// </summary>
+        /// <remarks>
+        /// Using automatic values storage - DO NOT combine with private fields fior bindable properties in view models.
+        /// </remarks>
+        /// <typeparam name="T">The value type.</typeparam>
+        /// <param name="preSetAction">An Action that will execute before set and notification is done.</param>
+        /// <param name="postSetAction">An Action that will execute after set and notification is done.</param>
+        /// <param name="value">The new value.</param>
+        /// <param name="propertyName">Name of the property - automatically resolved by the framework if not explicitly defined.</param>
+        protected void SetPropertyValue<T>(T value, Action preSetAction, Action postSetAction, [CallerMemberName] string propertyName = "")
+        {
+            preSetAction?.Invoke();
+            this.SetPropertyValue(value, propertyName);
+            postSetAction?.Invoke();
+        }
+
+        /// <summary>
+        /// Gets the property value by using the automatic private values storage.
+        /// </summary>
+        /// <remarks>
+        /// Using automatic values storage - DO NOT combine with private fields fior bindable properties in view models.
+        /// </remarks>
+        /// <typeparam name="T">The value type.</typeparam>
+        /// <param name="propertyName">Name of the property - automatically resolved by the framework if not explicitly defined.</param>
+        /// <returns>The value of the property. If not found, the default value of the type will be returned.</returns>
+        protected T GetPropertyValue<T>([CallerMemberName] string propertyName = "")
+        {
+            if (!this.values.ContainsKey(propertyName))
+            {
+                this.values[propertyName] = default(T);
+            }
+
+            return (T)this.values[propertyName];
         }
 
         /// <summary>

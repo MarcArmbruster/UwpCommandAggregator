@@ -95,8 +95,10 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandAggregator\AutomaticValuesStorageTests.cs" />
     <Compile Include="CommandAggregator\BaseVmTest.cs" />
     <Compile Include="CommandAggregator\CmdAggTests.cs" />
+    <Compile Include="CommandAggregator\ExternalAggregatorTests.cs" />
     <Compile Include="CommandAggregator\HierarchyCommandTests.cs" />
     <Compile Include="CommandAggregator\RelayCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

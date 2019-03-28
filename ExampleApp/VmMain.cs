@@ -18,12 +18,7 @@
                 //this.RaisePropertyChanged("CmdAgg");  --> not necessary due to AutoTriggerCommandNotification = true
             }
         }
-
-        /// <summary>
-        /// The can save1 value.
-        /// </summary>
-        private bool canSave1;
-
+     
         /// <summary>
         /// The can save2 value.
         /// </summary>
@@ -42,8 +37,10 @@
         /// </value>       
         public bool CanSave1
         {
-            get => this.canSave1;
-            set => this.SetPropertyValue(ref this.canSave1, value,()=> { }, () => this.NotifyPropertyChanged(nameof(CmdAgg)));
+            // using NO private field -> using automatic values storage (base class).
+
+            get => this.GetPropertyValue<bool>();
+            set => this.SetPropertyValue<bool>(value);
         }
 
         /// <summary>
