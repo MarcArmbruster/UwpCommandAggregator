@@ -2,8 +2,20 @@
 The UWP Command Aggregator is a solution to reduce UWP command definitions to an absolute minimum of code lines (only one per command).
 In addition, a BaseViewModel class (BaseVm) with an integrated command aggregator instance and the DependsOn attribute is supported.
 
+Latest stable version is available as a nuGet package:<br/>
+[nuGet: UwpCommandAggregator](https://www.nuget.org/packages/UwpCommandAggregator/)
+
+There is also a WPF version of the CommandAggregator:<br/>
+[gitHub: WPF Command Aggregator](https://github.com/MarcArmbruster/WpfCommandAggregator)<br/>
+[nuGet: WPF Command Aggregator](https://www.nuget.org/packages/WpfCommandAggregator/)
+
 ## Versions
-- 1.0.0.0 : UWP Command Aggregator
+- 1.1.0.0 
+  - new: Factory extended to enable registration/unregistration of a custom command aggregator implementation.
+  - new: Automatic values storage added (no more private backing fields required for bindable properties): incl. Set and Get methods.
+  - change: SetPropertyValue methods checks for real changes - only than a notification will be raised.
+- 1.0.0.0 : 
+  - UWP Command Aggregator
 
 ## The Background
 
@@ -352,5 +364,35 @@ can now be simplified with the following one:
 ```C#	
     this.CmdAgg.AddOrSetCommand("Exit", new RelayCommand(p1 => MessageBox.Show("Exit called")));
 ```
+
+
+## Version 1.1.0.0: automatic values storage, custom aggregators and notification optimization
+
+The version 1.1.0.0 contains two new features and one optimization.
+
+1. The optimization: Previously, a **notification** was always triggered for value assignments to a (bindable) property. As of version 1.5.0.0, this only happens if the value has effectively changed - in other words, if the content has changed.   
+2. The first new feature: automatic values storage<br/>
+The base ViewModel now has a **value storage** in which the values for the (bindable) properties are stored. This means that no more private fields have to be declared in the ViewModels. This advantage brings with it a small disadvantage: when reading the values a 'cast' is necessary. For properties that are read very frequently, you should therefore use this with caution to avoid performance disadvantages. Of course, you can continue to work with private fields in the future. A mixture of both concepts within a ViewModel is not recommended with regard to the readability of the code (but is possible without problems).<br/>
+    ```C#	
+    public bool CanSave
+    {
+        // using NO private field -> using automatic values storage (from base class).
+        get => this.GetPropertyValue<bool>();
+        set => this.SetPropertyValue<bool>(value);                          
+    }
+    ```
+3.  The second new feature: **custom command aggregator** implmentations<br/>
+It is now possible to use your own implementation of the Command Aggregator. For this purpose this implementation can be registered at the factory class. Until a possible deregistration the own implementation will be used by the factory. The condition is that the implementation has a parameterless constructor.<br/>
+**register:** (to use an own/custom implementation)
+    ```C#	
+    CommandAggregatorFactory.RegisterAggreagtorImplementation<OwnAggregator>();
+    // now the own/custom aggregator will be used!
+    ```
+    **unregister** (to change the factory behavior during runtime - otherwise not necessary):
+    ```C#	
+    CommandAggregatorFactory.UnregisterAggreagtorImplementation<OwnAggregator>();
+    // now the default aggregator will be used again!
+    ```
+
 
 (see also the example solution (source code))
