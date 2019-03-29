@@ -1,0 +1,55 @@
+﻿<?xml version="1.0"?>
+<package>
+    <metadata>
+
+        <!-- The identifier that must be unique within the hosting gallery -->
+        <id>UWPCommandAggregator</id>
+
+        <title>UWP Command Aggregator</title>
+
+        <!-- The package version number that is used when resolving dependencies -->
+        <version>1.1.0</version>
+
+        <!-- Authors contain text that appears directly on the gallery -->
+        <authors>Marc Armbruster</authors>
+
+        <!-- 
+            Owners are typically nuget.org identities that allow gallery
+            users to easily find other packages by the same owners.  
+        -->
+        <owners>marcarmbruster</owners>
+
+	<!-- 
+            If true, this value prompts the user to accept the license when
+            installing the package. 
+        -->
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+
+        <!-- License and project URLs provide links for the gallery -->
+        <licenseUrl>http://opensource.org/licenses/MS-PL</licenseUrl>	     
+        <projectUrl>https://github.com/MarcArmbruster/UwpCommandAggregator</projectUrl>
+
+        <!-- The icon is used in Visual Studio's package manager UI -->
+        <!-- 64*64 with transparent background-->
+        <iconUrl>https://github.com/MarcArmbruster/UwpCommandAggregator/blob/master/UwpCmdAgg.png</iconUrl>
+
+        <!-- Any details about this particular release -->
+        <releaseNotes>
+            Automatic values storage added. Commander factory extended. Notifications optimized.
+        </releaseNotes>
+
+        <!-- 
+            The description can be used in package manager UI. Note that the
+            nuget.org gallery uses information you add in the portal. 
+        -->
+        <description>MVVM solution for efficent command definition and usage in UWP projects including a comfortable base view model</description>
+
+        <summary>MVVM solution for efficent command definition and usage in UWP projects including a comfortable base view model.</summary>
+
+        <!-- Copyright information -->
+        <copyright>Copyright ©2018-2019 Marc Armbruster</copyright>
+
+        <!-- Tags appear in the gallery and can be used for tag searches -->
+        <tags>UWP MVVM Command Pattern ViewModel csharp</tags> 
+    </metadata>
+</package>
