@@ -105,6 +105,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BaseVm.cs" />
+    <Compile Include="Collections\ObservableCollectionExt.cs" />
     <Compile Include="CommandAggregator.cs" />
     <Compile Include="CommandAggregatorFactory.cs" />
     <Compile Include="DependsOnAttribute.cs" />

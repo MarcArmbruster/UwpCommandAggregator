@@ -72,5 +72,36 @@
             </StackPanel>
         </Border>
 
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding CmdAgg[AddPersons], UpdateSourceTrigger=PropertyChanged}">Add</Button>
+                <Button Command="{Binding CmdAgg[RemovePersons], UpdateSourceTrigger=PropertyChanged}">Remove</Button>
+                <Button Command="{Binding CmdAgg[ReplacePerson], UpdateSourceTrigger=PropertyChanged}">Replace</Button>
+            </StackPanel>
+            
+            <GridView Grid.Row="1" 
+                      ItemsSource="{Binding Persons, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapGrid Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Name}"/>
+                            <TextBlock Text="{Binding Path=Age}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+        </Grid>
+        
     </Grid>
 </Page>

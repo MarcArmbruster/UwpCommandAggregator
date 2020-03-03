@@ -2,11 +2,19 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows.Input;
     using UwpCommandAggregator;
 
     public class VmMain : UwpCommandAggregator.BaseVm
     {
+        private List<Person> allPersons = new List<Person>
+        {
+            new Person { Name = "Marc", Age = 99 },
+            new Person { Name = "Anke", Age = 19 }
+        };
+
         private bool isAllowed;
         public bool IsAllowed
         {
@@ -28,6 +36,23 @@
         /// Input string to demonstrate Dependency Attribute.
         /// </summary>
         private string stringInput;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainVm"/> class.
+        /// </summary>
+        public VmMain()
+        {
+            this.Persons = new ObservableCollectionExt<Person>();
+        }
+
+        /// <summary>
+        /// THe extended obersvable collection.
+        /// </summary>
+        public ObservableCollectionExt<Person> Persons
+        {
+            get { return this.GetPropertyValue<ObservableCollectionExt<Person>>(); }
+            private set { this.SetPropertyValue<ObservableCollectionExt<Person>>(value); }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance can save1.
@@ -85,6 +110,10 @@
 
             saveAllCmd.AddChildsCommand(new List<ICommand> { save1Cmd, save2Cmd });
             this.CmdAgg.AddOrSetCommand("SaveAll", saveAllCmd);
+
+            this.CmdAgg.AddOrSetCommand("AddPersons", p1 => this.AddPersons(), p2 => true);
+            this.CmdAgg.AddOrSetCommand("RemovePersons", p1 => this.RemovePersons(), p2 => this.Persons.Any());
+            this.CmdAgg.AddOrSetCommand("ReplacePerson", p1 => this.ReplacePerson(), p2 => this.Persons.Any());
         }
 
         private async void ShowMessageAsync(string text)
@@ -108,7 +137,33 @@
         {
             Windows.UI.Popups.MessageDialog dlg = new Windows.UI.Popups.MessageDialog("Clicked", "Click Example");
             var result = await dlg.ShowAsync();
+        }
 
+        /// <summary>
+        /// Adds test persons to the Persons collection.
+        /// </summary>
+        private void AddPersons()
+        {
+            this.Persons.AddRange(this.allPersons);
+            this.NotifyPropertyChanged(nameof(CmdAgg));
+        }
+
+        /// <summary>
+        /// Remove test persons from the Persons collection.
+        /// </summary>
+        private void RemovePersons()
+        {
+            this.Persons.RemoveItems(this.allPersons);
+            this.NotifyPropertyChanged(nameof(CmdAgg));
+        }
+
+        /// <summary>
+        /// Replace a person by another person within the Persons collection.
+        /// </summary>
+        private void ReplacePerson()
+        {
+            this.Persons.Replace(allPersons.First(), new Person { Name = "Gerhard", Age = 27 });
+            this.NotifyPropertyChanged(nameof(CmdAgg));
         }
     }
 }

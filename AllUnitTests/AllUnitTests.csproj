@@ -98,6 +98,7 @@
     <Compile Include="CommandAggregator\AutomaticValuesStorageTests.cs" />
     <Compile Include="CommandAggregator\BaseVmTest.cs" />
     <Compile Include="CommandAggregator\CmdAggTests.cs" />
+    <Compile Include="CommandAggregator\Collections\ObservableCollectionExtTests.cs" />
     <Compile Include="CommandAggregator\ExternalAggregatorTests.cs" />
     <Compile Include="CommandAggregator\HierarchyCommandTests.cs" />
     <Compile Include="CommandAggregator\RelayCommandTest.cs" />
